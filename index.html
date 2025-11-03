@@ -1,100 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Pieces: Understanding Overdoses Beyond the Statisticse</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missing Pieces: Understanding Overdoses Beyond the Statistics</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <section class="section" id="section1">
-            <div class="content">
-                <h1>Missing Pieces</h1>
-                <h2>Understanding Overdoses Beyond the Statistics</h2>
-            </div>
-        </section>
-        
-        <section class="section" id="section2">
-            <div class="content">
-                <h1>Mapping the Rise of Drug Overdose Deaths Worldwide</h1>
-                <p>Drug overdose rates globally over the past few years</p>
-            </div>
-            <div class="map-container">
-                <iframe src="first visulization/world-tour/index.html" width="100%" height="600" style="border: none;"></iframe>
-            </div>
-        </section>
-        
-        <section class="section" id="section3">
-            <div class="content">
-                <h1>U.S. Fatal Overdose Deaths by Year</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-        
-        <section class="section" id="section4">
-            <div class="content">
-                <h1>Lives Stolen: The Human Toll of Overdose Deaths</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-        
-        <section class="section" id="section5">
-            <div class="content">
-                <h1>Hardships, Facing to Addiction</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-        
-        <section class="section" id="section6">
-            <div class="content">
-                <h1>Drugs Used in Overdose Deaths</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-        
-        <section class="section" id="section7">
-            <div class="content">
-                <h1>Most Common Drugs Based on Regions</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-        
-        <section class="section" id="section8">
-            <div class="content">
-                <h1>Naxolone Distribution and Access in the U.S.</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-        
-        <section class="section" id="section9">
-            <div class="content">
-                <h1>Other Resources</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-        
-        <section class="section" id="section10">
-            <div class="content">
-                <h1>Works Cited</h1>
-                <p>smaller heading/info</p>
-            </div>
-        </section>
-    </div>
+  <div class="container">
     
-    <nav class="scroll-indicators">
-        <a href="#section1" class="indicator active"></a>
-        <a href="#section2" class="indicator"></a>
-        <a href="#section3" class="indicator"></a>
-        <a href="#section4" class="indicator"></a>
-        <a href="#section5" class="indicator"></a>
-        <a href="#section6" class="indicator"></a>
-        <a href="#section7" class="indicator"></a>
-        <a href="#section8" class="indicator"></a>
-        <a href="#section9" class="indicator"></a>
-        <a href="#section10" class="indicator"></a>
-    </nav>
-    
-    <script src="script.js"></script>
+    <!-- HOOK -->
+    <section class="section" id="section1">
+      <div class="content">
+        <h1>Missing Pieces</h1>
+        <h2>Understanding Overdoses Beyond the Statistics</h2>
+        <p class="subtitle">A global look at how overdose rates have deepened in severity over time.</p>
+      </div>
+    </section>
+
+    <section class="section" id="section2">
+      <div class="content">
+        <h1>Hook: The Global Surge</h1>
+        <p>Map of the world that deepens in <span class="highlight">red</span> to show rising drug overdose rates globally over the past few decades.</p>
+      </div>
+      <div class="map-container">
+        <iframe src="first-visualization/world-map/index.html" width="100%" height="600" style="border:none;"></iframe>
+      </div>
+    </section>
+
+    <!-- RISING INSIGHTS -->
+    <section class="section" id="section3">
+        <div class="content">
+          <h1>Zooming In: The U.S. Perspective</h1>
+          <p>National fatal overdose visual highlighting the escalating crisis within the U.S.</p>
+        </div>
+        <div id="us-overdose-map"></div>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+        <script src="visualizations/us-choropleth/us-overdose-map.js"></script>
+      </section>
+      
+
+    <section class="section" id="section4">
+      <div class="content">
+        <h1>Human Stories Behind the Numbers</h1>
+        <p>Each figure tells a story—people confronting addiction, isolation, and recovery attempts.</p>
+        <p class="note">Qualitative insights and personal hardships appear alongside data points.</p>
+      </div>
+    </section>
+
+    <section class="section" id="section5">
+      <div class="content">
+        <h1>Patterns and Regional Shifts</h1>
+        <p>Visuals reveal how certain regions face disproportionate challenges, while others show promise through prevention efforts.</p>
+      </div>
+    </section>
+
+    <!-- MAIN MESSAGE -->
+    <section class="section" id="section6">
+      <div class="content">
+        <h1>Main Message</h1>
+        <p>Overlay the <span class="highlight">Naloxone distribution</span> and <span class="highlight">overdose death</span> visuals to show that current efforts <strong>aren’t enough.</strong></p>
+        <p class="note">Emphasize: <em>So what?</em> — why rising interventions have yet to flatten the curve.</p>
+      </div>
+    </section>
+
+    <!-- SOLUTION -->
+    <section class="section" id="section7">
+      <div class="content">
+        <h1>Solutions in Focus</h1>
+        <p>Geographic visualization of small-scale but effective community efforts to combat overdose deaths.</p>
+      </div>
+    </section>
+
+    <section class="section" id="section8">
+      <div class="content">
+        <h1>Scaling What Works</h1>
+        <p>Zoom in on promising interventions and generalize strategies for broader implementation.</p>
+      </div>
+    </section>
+
+    <!-- REFERENCES -->
+    <section class="section" id="section9">
+      <div class="content">
+        <h1>Additional Resources</h1>
+        <p>Explore access to rehabilitation programs, Naloxone distribution networks, and educational outreach initiatives.</p>
+      </div>
+    </section>
+
+    <section class="section" id="section10">
+      <div class="content">
+        <h1>Works Cited</h1>
+        <p>Data from WHO, CDC, NIH, and Global Drug Observatory.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Scroll Indicators -->
+  <nav class="scroll-indicators">
+    <a href="#section1" class="indicator active"></a>
+    <a href="#section2" class="indicator"></a>
+    <a href="#section3" class="indicator"></a>
+    <a href="#section4" class="indicator"></a>
+    <a href="#section5" class="indicator"></a>
+    <a href="#section6" class="indicator"></a>
+    <a href="#section7" class="indicator"></a>
+    <a href="#section8" class="indicator"></a>
+    <a href="#section9" class="indicator"></a>
+    <a href="#section10" class="indicator"></a>
+  </nav>
+
+  <script src="script.js"></script>
 </body>
 </html>
