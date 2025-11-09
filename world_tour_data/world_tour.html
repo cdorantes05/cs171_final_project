@@ -82,18 +82,31 @@
 
   <script>
   // === Your Top 10 Data ===
-  const top10 = [
-    { name: "Country A", overdoseRate: 42.3, lon: -77.04, lat: 38.90 },
-    { name: "Country B", overdoseRate: 39.1, lon: -3.70, lat: 40.42 },
-    { name: "Country C", overdoseRate: 37.8, lon: 2.35, lat: 48.86 },
-    { name: "Country D", overdoseRate: 35.9, lon: 13.41, lat: 52.52 },
-    { name: "Country E", overdoseRate: 33.4, lon: 139.69, lat: 35.68 },
-    { name: "Country F", overdoseRate: 32.2, lon: -58.38, lat: -34.61 },
-    { name: "Country G", overdoseRate: 31.8, lon: -46.63, lat: -23.55 },
-    { name: "Country H", overdoseRate: 30.7, lon: 151.21, lat: -33.87 },
-    { name: "Country I", overdoseRate: 29.5, lon: 37.62,  lat: 55.75 },
-    { name: "Country J", overdoseRate: 28.2, lon: 116.40, lat: 39.90 }
-  ];
+//   const top10 = [
+//     { name: "Country A", overdoseRate: 42.3, lon: -77.04, lat: 38.90 },
+//     { name: "Country B", overdoseRate: 39.1, lon: -3.70, lat: 40.42 },
+//     { name: "Country C", overdoseRate: 37.8, lon: 2.35, lat: 48.86 },
+//     { name: "Country D", overdoseRate: 35.9, lon: 13.41, lat: 52.52 },
+//     { name: "Country E", overdoseRate: 33.4, lon: 139.69, lat: 35.68 },
+//     { name: "Country F", overdoseRate: 32.2, lon: -58.38, lat: -34.61 },
+//     { name: "Country G", overdoseRate: 31.8, lon: -46.63, lat: -23.55 },
+//     { name: "Country H", overdoseRate: 30.7, lon: 151.21, lat: -33.87 },
+//     { name: "Country I", overdoseRate: 29.5, lon: 37.62,  lat: 55.75 },
+//     { name: "Country J", overdoseRate: 28.2, lon: 116.40, lat: 39.90 }
+//   ];
+
+const top10 = [
+  { name: "United States", overdoseRate: 324.0, lon: -98.58, lat: 39.83 },
+  { name: "Puerto Rico", overdoseRate: 246.0, lon: -66.11, lat: 18.43 },
+  { name: "UK (Scotland)", overdoseRate: 219.0, lon: -3.19, lat: 55.95 },
+  { name: "Canada", overdoseRate: 193.0, lon: -75.69, lat: 45.42 },
+  { name: "UK (Wales)", overdoseRate: 102.0, lon: -3.18, lat: 51.48 },
+  { name: "Iceland", overdoseRate: 93.0, lon: -21.94, lat: 64.14 },
+  { name: "Sweden", overdoseRate: 82.0, lon: 18.06, lat: 59.33 },
+  { name: "UK (N. Ireland)", overdoseRate: 81.0, lon: -5.93, lat: 54.60 },
+  { name: "UK (England)", overdoseRate: 80.0, lon: -0.13, lat: 51.51 },
+  { name: "Finland", overdoseRate: 71.0, lon: 24.94, lat: 60.17 }
+];
 
   // === Setup ===
   const svg = d3.select("#globe");
