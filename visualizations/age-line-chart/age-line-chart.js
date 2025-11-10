@@ -112,17 +112,31 @@ const color = d3.scaleOrdinal()
       .attr("text-anchor", "start")
       .text("Overdose rate"));
 
-  // Draw one line per age group
-  for (const [age, values] of ageGroups) {
-    values.sort((a, b) => a.date - b.date);
-    svg.append("path")
-      .datum(values)
-      .attr("fill", "none")
-      .attr("stroke", color(age))
-      .attr("stroke-width", 2)
-      .attr("d", line)
-      .attr("opacity", 0.9);
-  }
+
+// Draw one animated line per age group
+for (const [age, values] of ageGroups) {
+  values.sort((a, b) => a.date - b.date);
+
+  const path = svg.append("path")
+    .datum(values)
+    .attr("fill", "none")
+    .attr("stroke", color(age))
+    .attr("stroke-width", 2)
+    .attr("d", line)
+    .attr("opacity", 0.9);
+
+  // Animation: draw line over time
+  const totalLength = path.node().getTotalLength();
+
+  path
+    .attr("stroke-dasharray", `${totalLength} ${totalLength}`)
+    .attr("stroke-dashoffset", totalLength)
+    .transition()
+      .duration(2000)        // <<< adjust if you want faster/slower
+      .ease(d3.easeCubicInOut)
+      .attr("stroke-dashoffset", 0);
+}
+
 
   // Add legend
   const legend = svg.append("g")
@@ -149,6 +163,22 @@ const color = d3.scaleOrdinal()
     .text(d => d)
     .style("font-size", "12px")
     .attr("fill", "#ffffffff");
+
+
+// Animate only when chart is visible on screen
+const chartContainer = document.querySelector("#overdose-line-chart");
+let hasAnimated = false;
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !hasAnimated) {
+      drawLines();
+      hasAnimated = true; // run only once
+    }
+  });
+}, { threshold: 0.3 });
+
+observer.observe(chartContainer);
 
 
 })();
