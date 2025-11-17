@@ -24,7 +24,10 @@
   
   .section {
     width: 100vw;
-    height: 100vh;
+    /* Let sections grow if the content is taller than the viewport */
+    min-height: 100vh;
+    height: auto;
+  
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -35,6 +38,7 @@
     padding: 4rem 3rem;
     background: linear-gradient(135deg, #2e2e2e 0%, #181818 100%);
   }
+  
   
   .content {
     max-width: 800px;
@@ -174,12 +178,12 @@
   transition: opacity 0.2s;
 }
 
-
 #jonathans-story,
 #sofias-story,
 #jakes-story {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -278,7 +282,7 @@
   #naloxone-bar svg,
   #naloxone-line svg {
     width: 100%;
-    height: auto;  /* FIXED: prevents stretching */
+    height: auto;
   }
   
   /* Centered, properly positioned year overlay */
@@ -313,12 +317,13 @@
 /* ===========================
    HERO TYPEWRITER INTRO
    =========================== */
-
+   
    #hero {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     background: black;
     text-align: center;
     padding: 0 2rem;
