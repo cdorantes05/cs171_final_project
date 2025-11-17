@@ -57,15 +57,20 @@
     const sizeScale = d3.scaleSqrt()
       .range([30, 105]); // bubble size range
 
+    // Animation control
+    let hasAnimated = false;
+    let nodes = null;
+    let simulation = null;
+
     // Function to create bubbles
-    function createBubbles(data) {
+    function createBubbles(data, animate = false) {
       console.log("Creating bubbles with data:", data);
 
       // Update scale
       sizeScale.domain([0, d3.max(data, d => d.deaths)]);
 
       // Create nodes
-      const nodes = data.map(d => ({
+      nodes = data.map(d => ({
         ...d,
         radius: sizeScale(d.deaths),
         x: Math.random() * width - width / 2,
@@ -73,12 +78,17 @@
       }));
 
       // Force simulation
-      const simulation = d3.forceSimulation(nodes)
+      simulation = d3.forceSimulation(nodes)
         .force("charge", d3.forceManyBody().strength(5))
         .force("center", d3.forceCenter(0, 0))
         .force("collision", d3.forceCollide().radius(d => d.radius + 2))
         .force("x", d3.forceX(0).strength(0.05))
         .force("y", d3.forceY(0).strength(0.05));
+
+      // Stop simulation initially if not animating
+      if (!animate) {
+        simulation.stop();
+      }
 
       // Circles
       const circles = svg.selectAll(".drug-bubble")
@@ -94,17 +104,23 @@
         .append("circle")
         .attr("class", "drug-bubble")
         .attr("r", 0)
-        .style("cursor", "pointer");
-
-      const allCircles = circlesEnter.merge(circles);
-
-      allCircles.transition()
-        .duration(800)
-        .attr("r", d => d.radius)
+        .style("cursor", "pointer")
         .attr("fill", d => d.color)
         .attr("stroke", "#fff")
         .attr("stroke-width", 2)
-        .style("opacity", 0.8);
+        .style("opacity", 0);
+
+      const allCircles = circlesEnter.merge(circles);
+
+      // Animate only if flag is set
+      if (animate) {
+        allCircles
+          .transition()
+          .duration(1000)
+          .delay((d, i) => i * 100) // stagger animation
+          .attr("r", d => d.radius)
+          .style("opacity", 0.8);
+      }
 
       // Hover tooltip
       allCircles
@@ -153,6 +169,7 @@
         .style("font-weight", "bold")
         .style("fill", "white")
         .style("pointer-events", "none")
+        .style("opacity", 0);
 
       const allLabels = labelsEnter.merge(labels);
 
@@ -162,6 +179,15 @@
           if (d.radius > 60) return "14px";
           return "9px";
         });
+
+      // Animate labels if flag is set
+      if (animate) {
+        allLabels
+          .transition()
+          .duration(1000)
+          .delay((d, i) => i * 100 + 400) // delay after bubbles start
+          .style("opacity", 1);
+      }
 
       // Update on tick
       simulation.on("tick", () => {
@@ -175,6 +201,31 @@
       });
 
       console.log("Bubbles created successfully");
+    }
+
+    // Function to trigger animation
+    function triggerAnimation() {
+      if (simulation && nodes) {
+        console.log("Triggering bubble animation!");
+        
+        // Restart simulation
+        simulation.alpha(1).restart();
+        
+        // Animate bubbles
+        svg.selectAll(".drug-bubble")
+          .transition()
+          .duration(1000)
+          .delay((d, i) => i * 100)
+          .attr("r", d => d.radius)
+          .style("opacity", 0.8);
+        
+        // Animate labels
+        svg.selectAll(".drug-label")
+          .transition()
+          .duration(1000)
+          .delay((d, i) => i * 100 + 400)
+          .style("opacity", 1);
+      }
     }
 
     // Load real dataset (CSV converted from Excel)
@@ -203,8 +254,29 @@
         };
       });
 
-      // Create the bubbles
-      createBubbles(aggregatedData);
+      // Create the bubbles (initially hidden)
+      createBubbles(aggregatedData, false);
+
+      // Set up Intersection Observer for scroll-triggered animation
+      const observerOptions = {
+        root: null, // viewport
+        rootMargin: '0px',
+        threshold: 0.3 // trigger when 30% of element is visible
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !hasAnimated) {
+            console.log("Bubble chart is visible, triggering animation!");
+            triggerAnimation();
+            hasAnimated = true; // only animate once
+          }
+        });
+      }, observerOptions);
+
+      // Start observing the container
+      observer.observe(container);
+
     }).catch(error => {
       console.error("Error loading dataset:", error);
     });

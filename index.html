@@ -35,6 +35,50 @@
       </div>
     </section>
 
+   <section class="section" id="section-quiz">
+    <div class="content">
+      <h1>Test Your Knowledge</h1>
+      <p>What percentage of people have used illicit drugs? Make your best guess for each category!</p>
+    </div>
+
+    <div id="quiz-container">
+      <div id="quiz-inputs">
+      <div class="input-box">
+        <label><strong>Lifetime Use</strong></label>
+        <div>
+          <input type="number" id="lifetime-guess" min="0" max="100" step="0.1" placeholder="0">
+          <span>%</span>
+        </div>
+      </div>
+      <div class="input-box">
+        <label><strong>Past Year Use</strong></label>
+        <div>
+          <input type="number" id="pastyear-guess" min="0" max="100" step="0.1" placeholder="0">
+          <span>%</span>
+        </div>
+      </div>
+      <div class="input-box">
+        <label><strong>Past Month Use</strong></label>
+        <div>
+          <input type="number" id="pastmonth-guess" min="0" max="100" step="0.1" placeholder="0">
+          <span>%</span>
+        </div>
+      </div>
+    </div>
+
+      <div id="pie-charts"></div>
+
+      <div id="quiz-buttons">
+        <button id="reveal-answer" class="quiz-button">Reveal Actual Percentages</button>
+        <button id="try-again" class="quiz-button" style="display: none;">Try Again</button>
+      </div>
+    </div>
+
+    <link rel="stylesheet" href="visualizations/drug-quiz/drug-quiz.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="visualizations/drug-quiz/drug-quiz.js"></script>
+  </section>
+
 
     <section class="section" id="section2b">
       <div class="content">
