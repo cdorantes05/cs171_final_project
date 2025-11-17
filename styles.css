@@ -247,44 +247,238 @@
 }
 
 #naloxone-flex {
-  width: 100%;
-  height: 75vh; /* <— ensures space inside section */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  margin-top: 2rem;
-  position: relative;
+  margin-top: 0.5rem !important;    /* pulls charts closer to the title */
 }
 
-/* Each chart gets sizing */
-#naloxone-bar svg,
-#naloxone-line svg {
-  width: 100%;
-  height: 100%;
-}
+  
+  #naloxone-flex {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+    margin-top: 2rem;
+  
+    /* NEW: let height grow naturally */
+    height: auto;
+    min-height: 60vh;
+    padding-bottom: 2rem;
+  
+    position: relative;
+  }
+  
+  /* Each chart panel */
+  #naloxone-bar,
+  #naloxone-line {
+    flex: 1;
+    max-width: 48%;
+    /* NEW: allow content-driven height */
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  /* SVG sizing */
+  #naloxone-bar svg,
+  #naloxone-line svg {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Centered, properly positioned year overlay */
+  #naloxoneYearOverlay {
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3.8rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.18);
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  /* Responsive Fix */
+  @media (max-width: 900px) {
+    #naloxone-flex {
+      flex-direction: column;
+      align-items: center;
+    }
+    #naloxone-bar, #naloxone-line {
+      max-width: 100%;
+    }
+    #naloxoneYearOverlay {
+      font-size: 3rem;
+      top: 0.5rem;
+    }
+  }
+  
 
-/* Ensure each side has room */
-#naloxone-bar, #naloxone-line {
-  flex: 1;
-  min-width: 450px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* ===========================
+   HERO TYPEWRITER INTRO
+   =========================== */
+   
+   #hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    height: auto;
+    background: black;
+    text-align: center;
+    padding: 0 2rem;
+  }
+  
+  .hero-inner {
+    max-width: 800px;
+  }
+  
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtext {
+    font-size: 1.2rem;
+    color: #cccccc;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  
+  .hero-subtext.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Blinking typewriter cursor */
+  .cursor-active::after {
+    content: "▌";
+    display: inline-block;
+    margin-left: 4px;
+    animation: blink-cursor 0.9s steps(1) infinite;
+  }
+  
+  @keyframes blink-cursor {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  /* Buttons */
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .hero-button {
+    padding: 0.8rem 1.4rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    background: #ffffff;
+    color: #000;
+    transition: 0.3s;
+  }
+  
+  .hero-button:hover {
+    background: #dddddd;
+  }
+  
+  .hero-button-outline {
+    background: transparent;
+    border: 1.5px solid white;
+    color: white;
+  }
+  
+  .hero-button-outline:hover {
+    background: rgba(255,255,255,0.15);
+  }
+  
 
-/* The big fading year overlay */
-#naloxoneYearOverlay {
-  position: absolute;
-  top: 0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 4rem;
-  font-weight: 800;
-  color: rgba(255,255,255,0.18);
-  pointer-events: none;
-  z-index: 5;
-}
+/* ======================================
+   NALOXONE QUIZ — UPDATED INTERACTIVE UI
+   ====================================== */
 
-
+   #naloxone-quiz-section .content h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  #naloxone-quiz-section .content p {
+    text-align: center;
+    font-size: 1.3rem;
+    opacity: 0.9;
+  }
+  
+  /* Container for all three pies */
+  #quiz-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  
+  /* Individual chart card */
+  .quiz-pie {
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #f5f5f5;
+    gap: 10px;
+  }
+  
+  .quiz-pie h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  /* SVG ring */
+  .quiz-pie svg {
+    width: 180px;
+    height: 180px;
+    cursor: crosshair;
+  }
+  
+  /* Guess label */
+  .quiz-pie p {
+    font-size: 1.1rem;
+    margin-top: 5px;
+  }
+  
+  /* Results */
+  .quiz-pie .result {
+    font-size: 1.3rem;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  
+  /* Submit button styling */
+  #submit-quiz {
+    margin-top: 20px;
+    padding: 12px 26px;
+    font-size: 1.2rem;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  #submit-quiz:hover {
+    background: #e0e0e0;
+  }
+  
