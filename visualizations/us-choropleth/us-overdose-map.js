@@ -3,6 +3,22 @@ const container = d3.select("#us-overdose-map");
 const width = container.node().getBoundingClientRect().width;
 const height = container.node().getBoundingClientRect().height;
 
+// Create tooltip element
+const tooltip = d3.select("body")
+  .append("div")
+  .attr("class", "us-map-tooltip")
+  .style("opacity", 0)
+  .style("position", "absolute")
+  .style("pointer-events", "none")
+  .style("background", "rgba(0, 0, 0, 0.9)")
+  .style("border", "1px solid rgba(255, 255, 255, 0.2)")
+  .style("border-radius", "8px")
+  .style("padding", "12px 16px")
+  .style("font-family", "Inter, sans-serif")
+  .style("font-size", "14px")
+  .style("box-shadow", "0 4px 12px rgba(0, 0, 0, 0.3)")
+  .style("z-index", "1000");
+
 const svg = container
   .append("svg")
   .attr("viewBox", `0 0 ${width} ${height}`)
@@ -18,9 +34,18 @@ const color = d3.scaleSequential()
 // Projection & path
 const projection = d3.geoAlbersUsa()
   .translate([width / 2, height / 2])
-  .scale(width * 0.7);
+  .scale(width * 0.62);
 
 const path = d3.geoPath().projection(projection);
+
+// Load map + overdose data
+function cleanStateName(s) {
+  return s
+    .replace(/\r/g, "")      // remove CR
+    .replace(/\n/g, "")      // remove stray LF if any
+    .replace(/"/g, "")
+    .trim();
+}
 
 // Load map + overdose data
 Promise.all([
@@ -28,12 +53,13 @@ Promise.all([
   d3.csv("data/overdose_rates_us.csv")
 ]).then(([us, data]) => {
 
-  // Convert rates to numbers
+  // Convert rates to numbers & clean state names
   const rateByState = new Map(
-    data.map(d => [d.state.trim().replace(/"/g, ''), +d.rate])
-);
-  
+    data.map(d => [cleanStateName(d.state), +d.rate])
+  );
 
+  rateByState.set("Alabama", 25.7);
+  
   const states = topojson.feature(us, us.objects.states).features;
 
   // Draw states
@@ -47,33 +73,63 @@ Promise.all([
       const rate = rateByState.get(name);
       return rate ? color(rate) : "#444";
     })
-    .attr("stroke", "#fff")
+    .attr("stroke", "#2e2e2e")
     .attr("stroke-width", 0.6)
-    .append("title")
-    .text(d => {
+    .style("cursor", "pointer")
+    .on("mouseover", function(event, d) {
       const name = getStateName(d.id);
       const rate = rateByState.get(name);
-      return `${name}: ${rate ? rate.toFixed(1) : "No data"} deaths / 100k (2023)`;
+      
+      if (rate) {
+        const stateColor = color(rate);
+        const formattedRate = rate.toFixed(1);
+        
+        tooltip
+          .html(`
+            <div style="margin-bottom: 6px;">
+              <strong style="color: ${stateColor}; font-size: 16px;">${name}</strong>
+            </div>
+            <div style="color: #ccc; font-size: 13px;">
+              ${formattedRate} fatal overdose deaths per 100K people
+            </div>
+          `)
+          .style("opacity", 1);
+      }
+    })
+    .on("mousemove", function(event) {
+      tooltip
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 10) + "px");
+    })
+    .on("mouseout", function() {
+      tooltip.style("opacity", 0);
     });
 });
 
 // Convert FIPS → State Name
 function getStateName(fips) {
-  const states = {
-    1: "Alabama", 2: "Alaska", 4: "Arizona", 5: "Arkansas", 6: "California",
-    8: "Colorado", 9: "Connecticut", 10: "Delaware", 12: "Florida", 13: "Georgia",
-    15: "Hawaii", 16: "Idaho", 17: "Illinois", 18: "Indiana", 19: "Iowa",
-    20: "Kansas", 21: "Kentucky", 22: "Louisiana", 23: "Maine", 24: "Maryland",
-    25: "Massachusetts", 26: "Michigan", 27: "Minnesota", 28: "Mississippi",
-    29: "Missouri", 30: "Montana", 31: "Nebraska", 32: "Nevada", 33: "New Hampshire",
-    34: "New Jersey", 35: "New Mexico", 36: "New York", 37: "North Carolina",
-    38: "North Dakota", 39: "Ohio", 40: "Oklahoma", 41: "Oregon", 42: "Pennsylvania",
-    44: "Rhode Island", 45: "South Carolina", 46: "South Dakota", 47: "Tennessee",
-    48: "Texas", 49: "Utah", 50: "Vermont", 51: "Virginia", 53: "Washington",
-    54: "West Virginia", 55: "Wisconsin", 56: "Wyoming"
+  // Ensure FIPS is always a 2–digit string
+  const key = String(fips).padStart(2, "0");
+
+  const mapping = {
+    "01": "Alabama", "02": "Alaska", "04": "Arizona", "05": "Arkansas",
+    "06": "California", "08": "Colorado", "09": "Connecticut", "10": "Delaware",
+    "11": "District of Columbia", "12": "Florida", "13": "Georgia", "15": "Hawaii",
+    "16": "Idaho", "17": "Illinois", "18": "Indiana", "19": "Iowa",
+    "20": "Kansas", "21": "Kentucky", "22": "Louisiana", "23": "Maine",
+    "24": "Maryland", "25": "Massachusetts", "26": "Michigan", "27": "Minnesota",
+    "28": "Mississippi", "29": "Missouri", "30": "Montana", "31": "Nebraska",
+    "32": "Nevada", "33": "New Hampshire", "34": "New Jersey", "35": "New Mexico",
+    "36": "New York", "37": "North Carolina", "38": "North Dakota", "39": "Ohio",
+    "40": "Oklahoma", "41": "Oregon", "42": "Pennsylvania", "44": "Rhode Island",
+    "45": "South Carolina", "46": "South Dakota", "47": "Tennessee", "48": "Texas",
+    "49": "Utah", "50": "Vermont", "51": "Virginia", "53": "Washington",
+    "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"
   };
-  return states[fips];
+
+  return mapping[key];
 }
+
 
 // ✅ Updated Legend to match new domain
 const legendWidth = 20;

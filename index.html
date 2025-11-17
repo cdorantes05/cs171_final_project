@@ -10,13 +10,20 @@
   <div class="container">
     
     <!-- HOOK -->
-    <section class="section" id="section1">
-      <div class="content">
-        <h1>Missing Pieces</h1>
-        <h2>Understanding Overdoses Beyond the Statistics</h2>
-        <p class="subtitle">A global look at how overdose rates have deepened in severity over time.</p>
+    <section id="hero" class="section">
+      <div class="hero-inner">
+        <h1 id="typewriter" class="hero-title"></h1>
+        <p id="hero-subtext" class="hero-subtext"></p>
+    
+        <div class="hero-actions">
+          <button id="skip-intro" class="hero-button">Skip intro</button>
+          <a href="#section2" class="hero-button hero-button-outline">
+            Begin the story
+          </a>
+        </div>
       </div>
     </section>
+    
 
     <section class="section" id="section2">
       <div class="content">
@@ -185,5 +192,7 @@
   </nav>
 
   <script src="script.js"></script>
+  <!-- 👇 Add your typewriter script here -->
+  <script src="visualizations/hero-typewriter/heroTypewriter.js"></script>
 </body>
 </html>

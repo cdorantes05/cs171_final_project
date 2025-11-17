@@ -149,7 +149,7 @@
     width: 90%;
     height: 75%;
     background: transparent;
-    overflow: visible;
+    overflow: hidden;
   }
   
   .legend text {
@@ -269,3 +269,91 @@
 }
 
 
+/* ===========================
+   HERO TYPEWRITER INTRO
+   =========================== */
+
+   #hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: black;
+    text-align: center;
+    padding: 0 2rem;
+  }
+  
+  .hero-inner {
+    max-width: 800px;
+  }
+  
+  .hero-title {
+    font-size: clamp(2.3rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtext {
+    font-size: 1.2rem;
+    color: #cccccc;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  
+  .hero-subtext.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Blinking typewriter cursor */
+  .cursor-active::after {
+    content: "▌";
+    display: inline-block;
+    margin-left: 4px;
+    animation: blink-cursor 0.9s steps(1) infinite;
+  }
+  
+  @keyframes blink-cursor {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  /* Buttons */
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .hero-button {
+    padding: 0.8rem 1.4rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    background: #ffffff;
+    color: #000;
+    transition: 0.3s;
+  }
+  
+  .hero-button:hover {
+    background: #dddddd;
+  }
+  
+  .hero-button-outline {
+    background: transparent;
+    border: 1.5px solid white;
+    color: white;
+  }
+  
+  .hero-button-outline:hover {
+    background: rgba(255,255,255,0.15);
+  }
+  
